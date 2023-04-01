@@ -1,13 +1,27 @@
+"use client";
 import React, { FC } from "react";
-import { Tabs, TabsList, TabsTrigger } from "@/ui/Tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/Tabs";
+import Code from "@/components/Code";
+import { nodejs, python } from "@/helpers/documentationCode";
+import SimpleBar from "simplebar-react";
 
 const DocumentationTabs: FC = () => {
   return (
-    <Tabs>
+    <Tabs defaultValue="nodejs" className="max-w-2xl w-full">
       <TabsList>
-        <TabsTrigger value={""}>Nodes</TabsTrigger>
-        <TabsTrigger value={""}>Python</TabsTrigger>
+        <TabsTrigger value="nodejs">NodeJS</TabsTrigger>
+        <TabsTrigger value="python">Python</TabsTrigger>
       </TabsList>
+      <TabsContent value="nodejs">
+        <SimpleBar>
+          <Code code={nodejs} show language="javascript" animated />
+        </SimpleBar>
+      </TabsContent>
+      <TabsContent value="python">
+        <SimpleBar>
+          <Code code={python} show language="python" animated />
+        </SimpleBar>
+      </TabsContent>
     </Tabs>
   );
 };

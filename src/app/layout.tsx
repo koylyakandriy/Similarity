@@ -16,14 +16,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     >
       <body className="min-h-screen bg-slate-50 dark:bg-slate-900 antialiased">
         <Providers>
-          {children}
-
+          {/* @ts-expect-error Server Component */}
+          <Navbar />
           <Toaster position="bottom-right" />
 
-          <Navbar />
+          <main>{children}</main>
         </Providers>
 
-        {/* Allow for more height on mobile devices */}
+        {/* Allow more height for mobile menu on mobile */}
         <div className="h-40 md:hidden" />
       </body>
     </html>

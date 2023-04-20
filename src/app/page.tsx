@@ -8,7 +8,7 @@ import Paragraph from "@/components/ui/Paragraph";
 
 export const metadata: Metadata = {
   title: "Similarity API | Home",
-  description: "Free & open-source",
+  description: "Free & open-source API",
 };
 
 const Home = () => {

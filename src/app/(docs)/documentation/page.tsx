@@ -9,7 +9,7 @@ import "simplebar-react/dist/simplebar.min.css";
 
 export const metadata: Metadata = {
   title: "Similarity API | Documentation",
-  description: "Free & open-source",
+  description: "Free & open-source API",
 };
 
 const Documentation: FC = () => {

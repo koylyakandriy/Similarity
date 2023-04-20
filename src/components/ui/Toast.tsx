@@ -11,7 +11,7 @@ interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
   visible: boolean;
 }
 
-export function Toast({ visible, className, ...props }: ToastProps) {
+export const Toast = ({ visible, className, ...props }: ToastProps) => {
   return (
     <div
       className={cn(
@@ -22,7 +22,7 @@ export function Toast({ visible, className, ...props }: ToastProps) {
       {...props}
     />
   );
-}
+};
 
 interface ToastIconProps extends Partial<React.SVGProps<SVGSVGElement>> {
   name: keyof typeof Icons;
@@ -65,7 +65,7 @@ interface ToastOpts {
   duration?: number;
 }
 
-export function toast(opts: ToastOpts) {
+export const toast = (opts: ToastOpts) => {
   const { title, message, type = "default", duration = 3000 } = opts;
 
   return hotToast.custom(
@@ -83,4 +83,4 @@ export function toast(opts: ToastOpts) {
     ),
     { duration }
   );
-}
+};

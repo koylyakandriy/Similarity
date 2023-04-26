@@ -18,7 +18,7 @@ const ApiDashboard = async () => {
     where: { userId: user.user.id },
   });
 
-  const activeApiKey = apiKeys.find((key) => key.enabled);
+  const activeApiKey = apiKeys.find(({ enabled }) => enabled);
   if (!activeApiKey) notFound();
 
   const userRequests = await db.apiRequest.findMany({

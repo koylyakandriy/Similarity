@@ -25,7 +25,7 @@ const Home = () => {
           <Paragraph className="max-w-xl lg:text-left">
             With the text similarity API{" "}
             <Link
-              href="/"
+              href="/login"
               className="underline underline-offset-2 text-black dark:text-light-gold"
             >
               API key

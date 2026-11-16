@@ -1,38 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Similarity API
 
-## Getting Started
+A text similarity API with a developer dashboard. Send two pieces of text and get back a similarity score from 0 to 1. Users sign in with Google, create an API key in the dashboard and call the API from their own apps.
 
-First, run the development server:
+Built with **Next.js 13 (App Router)**, **TypeScript**, **Tailwind CSS**, **Prisma** and the **OpenAI embeddings API**.
+
+## How it works
+
+1. Both texts are turned into vectors with OpenAI's `text-embedding-ada-002` model.
+2. The API computes the **cosine similarity** between the two vectors.
+3. Every request is checked against the caller's API key, logged, and rate-limited.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+curl -X POST https://<your-domain>/api/v1/similarity \
+  -H "Content-Type: application/json" \
+  -d '{"authorization": "<your-api-key>", "text1": "First text", "text2": "Second text"}'
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Authentication** with Google via NextAuth.js
+- **API key management:** create and revoke keys from the dashboard
+- **Usage dashboard** with a table of recent requests (MUI Data Grid)
+- **Rate-limiting middleware** with Upstash Redis (sliding window per IP)
+- **Documentation page** with code examples and copy-to-clipboard
+- **Light and dark theme**
+- **Input validation** with Zod
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Tech stack
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+| Area | Tools |
+| --- | --- |
+| Framework | Next.js 13 (App Router and API routes), React 18, TypeScript |
+| UI | Tailwind CSS, Radix UI, class-variance-authority, MUI Data Grid, Framer Motion |
+| Auth | NextAuth.js with Prisma adapter, Google provider |
+| Data | Prisma ORM, MySQL |
+| Infrastructure | Upstash Redis rate limiting, OpenAI API |
+| Code quality | ESLint, Prettier, Husky, lint-staged |
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Project structure
 
-## Learn More
+```
+src/app/            Pages: landing, login, dashboard, documentation
+src/pages/api/      API routes: similarity, API key create and revoke, auth
+src/components/     UI components and design-system primitives (components/ui)
+src/helpers/        Cosine similarity, API key helpers, docs code samples
+src/lib/            Auth, database, OpenAI client, API middlewares
+prisma/             Database schema
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Getting started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+git clone https://github.com/koylyakandriy/Similarity.git
+cd Similarity
+yarn
+# create .env with the variables below
+npx prisma db push
+yarn dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| Variable | Description |
+| --- | --- |
+| `DATABASE_URL` | MySQL connection string |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Google OAuth credentials |
+| `NEXTAUTH_SECRET` | Secret for NextAuth.js |
+| `OPENAI_API_KEY` | OpenAI API key |
+| `REDIS_URL`, `REDIS_SECRET` | Upstash Redis credentials for rate limiting |
